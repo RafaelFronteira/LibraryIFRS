@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Welcome from './components/welcome/Welcome';
 import Singup from './components/user-credentials/Singup';
 import Singin from './components/user-credentials/Singin';
-import API from "./API";
+import Main from './components/main/Main';
+//import API from "./API";
 
 export default class App extends Component {
 
@@ -27,12 +28,17 @@ export default class App extends Component {
     userCredential.email =  encodeURIComponent(userCredential.email);
     userCredential.pass  =  encodeURIComponent(userCredential.pass);
 
-    API.post("users", userCredential).then(response => {
-      console.log("Respnse => ", response);
-      // this.setState((state) => {
-      //   state.page = "welcome";
-      //   return state;
-      // })
+    // API.post("users", userCredential).then(response => {
+    //   console.log("Respnse => ", response);
+    //   this.setState((state) => {
+    //     state.page = "welcome";
+    //     return state;
+    //   })
+    // })
+
+    this.setState((state) => {
+      state.page = "welcome";
+      return state;
     })
   }
 
@@ -40,7 +46,20 @@ export default class App extends Component {
     userCredential.email    = encodeURIComponent(userCredential.email);
     userCredential.password = encodeURIComponent(userCredential.password);
 
-    console.log(userCredential);
+    this.setState((state) => {
+      console.log(userCredential);
+      
+      state.page = "main";
+      return state;
+    });
+  }
+
+  logout() {
+     //remove o token do common
+    this.setState((state) => {
+      state.page = "welcome";
+      return state;
+    });  
   }
 
   render() {
@@ -59,7 +78,12 @@ export default class App extends Component {
                   open={ (open) => this.open(open) }
                   sIn={ (userCredential) => this.singin(userCredential) }
                 />
-              ): (0)
+              ): (
+                this.state.page === "main" ? 
+                (
+                  <Main logout={ () => this.logout() } />
+                ) : (0)
+              )
             )
           )
         }

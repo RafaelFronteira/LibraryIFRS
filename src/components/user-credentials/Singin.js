@@ -16,6 +16,18 @@ export default class Singin extends Component {
         })
     }
 
+    validate(){
+        if(this.state.email === "" || this.state.email.trim() === "") return alert("Email inválido!");
+        if(this.state.password === "" || this.state.password.trim() === "") return alert("Senha inválida!");
+
+        const userCredentials = {
+            email: this.state.email,
+            password: this.state.password
+        };
+
+        this.props.sIn(userCredentials);
+    }
+
     render() { 
         return ( 
             <div>
